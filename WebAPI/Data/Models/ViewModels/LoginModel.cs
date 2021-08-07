@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.Data.Models
+namespace WebAPI.Data.Models.ViewModels
 {
     public class LoginModel
     {
@@ -12,7 +12,8 @@ namespace WebAPI.Data.Models
         [EmailAddress]
         public string Username { get; set; }
         [Required]
-        [MinLength(6)]
+        [MinLength(8)]
+        [MaxLength(15)]
         public string Password { get; set; }
     }
 
