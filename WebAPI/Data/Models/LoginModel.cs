@@ -19,7 +19,7 @@ namespace WebAPI.Data.Models
     public class LoginResponseModel
     {
         public bool Success { get; set; }
-        public User User { get; set; }
+        public object User { get; set; }
         public string JwtToken { get; set; }
     }
 }

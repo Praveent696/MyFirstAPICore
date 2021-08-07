@@ -11,7 +11,7 @@ using WebAPI.Data.Services;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/roles")]
     [ApiController]
     [Authorize]
     public class RolesController : ControllerBase

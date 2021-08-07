@@ -11,7 +11,7 @@ using WebAPI.Data.Services;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -21,22 +21,21 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
+        [HttpPost("authenticate")]
         public ActionResult<LoginResponseModel> Login([FromBody]LoginModel user)
         {
-            LoginResponseModel response = new LoginResponseModel();
-            response = _userService.Login(user);
+            var response = _userService.Login(user);
+            if (!response.Success)
+            {
+                return Unauthorized(new { Message = "Wrong username and paswword pairs!!" });
+            }
             return Ok(response);
         }
 
         [HttpPost("register")]
         public ActionResult<LoginResponseModel> Register([FromBody] UserVM user)
         {
-            LoginResponseModel response = new LoginResponseModel();
-            var userCreated = _userService.AddOrUpdateUser(user).FirstOrDefault();
-            string token = _userService.generateJwtToken(userCreated);
-            response.User = userCreated;
-            response.JwtToken = token;
+            var response = _userService.AddOrUpdateUser(user);
             return Ok(response);
         }
     }
