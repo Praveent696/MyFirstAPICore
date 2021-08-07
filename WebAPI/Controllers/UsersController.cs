@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     /// <summary>
     /// This controller is for Users Related APIs
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     [Authorize]
     public class UsersController : ControllerBase

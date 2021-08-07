@@ -34,7 +34,7 @@ namespace WebAPI.Data.Services
                 .Where(x=> x.Id == id).ToList();
         }
 
-        public List<User> AddOrUpdateUser(UserVM userVM)
+        public LoginResponseModel AddOrUpdateUser(UserVM userVM)
         {
             var user = _context.Users.Where(x => x.Email == userVM.Email).FirstOrDefault();
             if (user == null)
@@ -59,7 +59,15 @@ namespace WebAPI.Data.Services
                 _context.SaveChanges();
             }
 
-            return _context.Users.Where(x => x.Email == userVM.Email).ToList();
+            var userResp = _context.Users.Where(x => x.Email == userVM.Email).FirstOrDefault();
+            LoginResponseModel response = new LoginResponseModel()
+            {
+                Success = true,
+                User = userResp,
+                JwtToken = generateJwtToken(userResp)
+            };
+
+            return response;
         }
 
         public LoginResponseModel Login(LoginModel user)
@@ -71,7 +79,8 @@ namespace WebAPI.Data.Services
                 model.Success = false;
                 return model;
             }
-            model.User = usr;
+            model.Success = true;
+            model.User = _context.Users.Where(x => x.Email == user.Username && x.Hash == user.Password).Include(x=>x.role).Include(x=>x.role.Permissions).FirstOrDefault();
             model.JwtToken = generateJwtToken(usr);
             return model;
         }
