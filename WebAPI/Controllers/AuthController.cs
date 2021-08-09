@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebAPI.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data.Models.ViewModels;
 using WebAPI.Data.Services;
 
