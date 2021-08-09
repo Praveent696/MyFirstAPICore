@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using WebAPI.Data.Models;
 using WebAPI.Data.Models.ViewModels;
 using WebAPI.Data.Services;
 

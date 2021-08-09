@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebAPI.Data.Models.ViewModels
+﻿namespace WebAPI.Data.Models.ViewModels
 {
     /// <summary>
     /// This response message for API call
