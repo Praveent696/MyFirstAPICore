@@ -13,7 +13,7 @@ using WebAPI.Utility;
 
 namespace WebAPI.Data.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private AppDbContext _context;
         private readonly AppSettings _appSettings;
@@ -62,7 +62,7 @@ namespace WebAPI.Data.Services
                 _context.SaveChanges();
             }
 
-            var userResp = _context.Users.Where(x => x.Email == userVM.Email).FirstOrDefault();
+            var userResp = _context.Users.Where(x => x.Email == userVM.Email).Include(x=>x.role).Include(x=>x.role.Permissions).FirstOrDefault();
             LoginResponseModel response = new LoginResponseModel()
             {
                 Success = true,
@@ -92,7 +92,7 @@ namespace WebAPI.Data.Services
                 }
                 model.Success = true;
                 model.User = _context.Users.Where(x => x.Email == user.Username).Include(x => x.role).Include(x => x.role.Permissions).FirstOrDefault();
-                model.JwtToken = generateJwtToken(usr);
+                model.JwtToken = generateJwtToken((User)model.User);
                 return model;
             }
         }
@@ -102,12 +102,17 @@ namespace WebAPI.Data.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secrate);
 
+            var permissionsClaim = new List<Claim>();
+            permissionsClaim.Add(new Claim(ClaimTypes.Name, user.Email));
+            permissionsClaim.Add(new Claim(ClaimTypes.Role, user.role.RoleName));
+            permissionsClaim.Add(new Claim(ClaimTypes.Role, user.role.RoleName));
+            foreach (var item in user.role.Permissions)
+            {
+                permissionsClaim.Add(new Claim(ClaimTypes.Role, item.PermissionName));
+            }
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name,user.Email)
-                }),
+                Subject = new ClaimsIdentity(permissionsClaim),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

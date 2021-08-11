@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data.Models.ViewModels;
 using WebAPI.Data.Services;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/auth")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    [Route("/auth")]
+    public class AuthController : ApiBaseController
     {
-        private UserService _userService;
-        public AuthController(UserService userService)
+        private IUserService _userService;
+        public AuthController(IUserService userService)
         {
             _userService = userService;
         }
@@ -26,6 +26,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "admin")]
         public ActionResult<LoginResponseModel> Register([FromBody] UserVM user)
         {
             var response = _userService.AddOrUpdateUser(user);

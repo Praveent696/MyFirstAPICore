@@ -6,13 +6,12 @@ using WebAPI.Data.Services;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/roles")]
-    [ApiController]
-    [Authorize]
-    public class RolesController : ControllerBase
+    [Route("/roles")]
+    [Authorize(Roles = "admin")]
+    public class RolesController : ApiBaseController
     {
-        private RoleServices _roleServices;
-        public RolesController(RoleServices roleServices)
+        private IRoleServices _roleServices;
+        public RolesController(IRoleServices roleServices)
         {
             _roleServices = roleServices;
         }
