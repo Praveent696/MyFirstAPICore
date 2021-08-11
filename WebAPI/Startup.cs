@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Text;
 using WebAPI.Data;
 using WebAPI.Data.Services;
+using WebAPI.Utility;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPI
 {
@@ -48,6 +50,7 @@ namespace WebAPI
 
             services.AddTransient<UserService>();
             services.AddTransient<RoleServices>();
+            services.AddTransient<IBcryptHelper, BCryptHelper>();
 
             services.AddSwaggerGen(c =>
             {
@@ -101,6 +104,22 @@ namespace WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
+                };
+                x.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
+                    {
+                        // Call this to skip the default logic and avoid using the default response
+                        context.HandleResponse();
+
+                        // Write to the response in any way you wish
+                        context.Response.StatusCode = 401;
+                        var unauthorisedResp = new {
+                            status = false,
+                            message = "You are unauthorised, Please Pass Authorization Bearer token in request."
+                        };
+                        await context.Response.WriteAsJsonAsync(unauthorisedResp);
+                    }
                 };
             });
         }

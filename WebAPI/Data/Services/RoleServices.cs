@@ -56,5 +56,7 @@ namespace WebAPI.Data.Services
             }
             return _context.Roles.Where(x => x.RoleName == role.RoleName).ToList();
         }
+
+        public List<Role> GetRoles() => _context.Roles.Include(x => x.Permissions).ToList();
     }
 }
