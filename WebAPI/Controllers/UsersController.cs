@@ -9,13 +9,12 @@ namespace WebAPI.Controllers
     /// <summary>
     /// This controller is for Users Related APIs
     /// </summary>
-    [Route("api/users")]
-    [ApiController]
+    [Route("/users")]
     [Authorize]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiBaseController
     {
-        private UserService _userService;
-        public UsersController(UserService userService)
+        private IUserService _userService;
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
@@ -25,6 +24,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-all-user")]
+        [Authorize(Roles = "admin")]
         public ActionResult<HttpResponseModel> Users()
         {
             var users = _userService.GetUsers();

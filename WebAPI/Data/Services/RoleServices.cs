@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Data.Services
 {
-    public class RoleServices
+    public class RoleServices : IRoleServices
     {
         private AppDbContext _context;
         public RoleServices(AppDbContext context)

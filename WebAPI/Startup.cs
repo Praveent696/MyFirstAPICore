@@ -48,8 +48,8 @@ namespace WebAPI
 
             //Configure Services
 
-            services.AddTransient<UserService>();
-            services.AddTransient<RoleServices>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleServices, RoleServices>();
             services.AddTransient<IBcryptHelper, BCryptHelper>();
 
             services.AddSwaggerGen(c =>
