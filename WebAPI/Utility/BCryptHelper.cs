@@ -1,4 +1,5 @@
-﻿using WebAPI.Utility.Interfaces;
+﻿using BC = BCrypt.Net.BCrypt;
+using WebAPI.Utility.Interfaces;
 
 namespace WebAPI.Utility
 {
@@ -9,7 +10,7 @@ namespace WebAPI.Utility
         /// </summary>
         /// <param name="plainText"></param>
         /// <returns></returns>
-        public string EncryptHash(string plainText) => BCrypt.Net.BCrypt.HashPassword(plainText);
+        public string EncryptHash(string plainText) => BC.HashPassword(plainText);
 
         /// <summary>
         /// Match Plain Text against Hash
@@ -19,7 +20,7 @@ namespace WebAPI.Utility
         /// <returns>true or false</returns>
         public bool IsStringMatchedToHash(string hash, string plainText)
         {
-            return BCrypt.Net.BCrypt.Verify(plainText, hash);
+            return BC.Verify(plainText, hash);
         }
     }
 }

@@ -6,8 +6,9 @@ using WebAPI.Utility;
 
 namespace WebAPI.Controllers
 {
-    [Route("/auth")]
-    public class AuthController : ApiBaseController
+    [Route("api/auth")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
         private IAuthServices _authService;
         public AuthController(IAuthServices authService)

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210812104104_AddInsuranceEntities")]
+    partial class AddInsuranceEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -394,7 +396,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
                     b.Property<string>("ShortCode")
@@ -545,8 +547,10 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Data.Models.VehicleType", b =>
                 {
                     b.HasOne("WebAPI.Data.Models.VehicleType", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Parent");
                 });
@@ -592,8 +596,6 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Data.Models.VehicleType", b =>
                 {
-                    b.Navigation("Children");
-
                     b.Navigation("Commisions");
 
                     b.Navigation("InsurancePolicies");

@@ -9,9 +9,10 @@ namespace WebAPI.Controllers
     /// <summary>
     /// This controller is for Users Related APIs
     /// </summary>
-    [Route("/users")]
+    [Route("api/users")]
     [Authorize]
-    public class UsersController : ApiBaseController
+    [ApiController]
+    public class UsersController : ControllerBase
     {
         private IUserService _userService;
         public UsersController(IUserService userService)

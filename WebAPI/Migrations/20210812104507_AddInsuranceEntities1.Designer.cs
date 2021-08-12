@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210812104507_AddInsuranceEntities1")]
+    partial class AddInsuranceEntities1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -545,7 +547,7 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Data.Models.VehicleType", b =>
                 {
                     b.HasOne("WebAPI.Data.Models.VehicleType", "Parent")
-                        .WithMany("Children")
+                        .WithMany()
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
@@ -592,8 +594,6 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Data.Models.VehicleType", b =>
                 {
-                    b.Navigation("Children");
-
                     b.Navigation("Commisions");
 
                     b.Navigation("InsurancePolicies");
