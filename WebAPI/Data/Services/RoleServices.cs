@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WebAPI.Data.Models;
 using WebAPI.Data.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Data.Services.Interfaces;
 
 namespace WebAPI.Data.Services
 {
@@ -33,7 +34,7 @@ namespace WebAPI.Data.Services
                 var roleEF = new Role()
                 {
                     RoleName = role.RoleName,
-                    Permissions = permissions
+                    Permissions = permissions.Count > 0 ? permissions : null
                 };
                 _context.Roles.Add(roleEF);
                 _context.SaveChanges();
@@ -49,10 +50,13 @@ namespace WebAPI.Data.Services
                         permissions.Add(permission);
                     }
                 }
-                r.Permissions.Clear();
-                r.Permissions = permissions;
-                _context.Roles.Update(r);
-                _context.SaveChanges();
+                if (permissions.Count > 0)
+                {
+                    r.Permissions.Clear();
+                    r.Permissions = permissions;
+                    _context.Roles.Update(r);
+                    _context.SaveChanges();
+                }
             }
             return _context.Roles.Where(x => x.RoleName == role.RoleName).ToList();
         }

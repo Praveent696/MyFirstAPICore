@@ -13,6 +13,8 @@ using WebAPI.Data;
 using WebAPI.Data.Services;
 using WebAPI.Utility;
 using Microsoft.AspNetCore.Http;
+using WebAPI.Data.Services.Interfaces;
+using WebAPI.Utility.Interfaces;
 
 namespace WebAPI
 {
@@ -50,7 +52,11 @@ namespace WebAPI
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleServices, RoleServices>();
+            services.AddTransient<IAuthServices, AuthServices>();
+
+            // Configure Helper Services
             services.AddTransient<IBcryptHelper, BCryptHelper>();
+            services.AddTransient<IJwtHelper, JwtHelper>();
 
             services.AddSwaggerGen(c =>
             {

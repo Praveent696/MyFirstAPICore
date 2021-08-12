@@ -1,36 +1,37 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data.Models.ViewModels;
-using WebAPI.Data.Services;
+using WebAPI.Data.Services.Interfaces;
+using WebAPI.Utility;
 
 namespace WebAPI.Controllers
 {
     [Route("/auth")]
     public class AuthController : ApiBaseController
     {
-        private IUserService _userService;
-        public AuthController(IUserService userService)
+        private IAuthServices _authService;
+        public AuthController(IAuthServices authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost("authenticate")]
-        public ActionResult<LoginResponseModel> Login([FromBody]LoginModel user)
+        public ActionResult<HttpResponseModel> Login([FromBody]LoginModel user)
         {
-            var response = _userService.Login(user);
+            var response = _authService.Login(user);
             if (!response.Success)
             {
-                return Unauthorized(new { Message = "Wrong username and paswword pairs!!" });
+                return Unauthorized(response);
             }
             return Ok(response);
         }
 
         [HttpPost("register")]
         [Authorize(Roles = "admin")]
-        public ActionResult<LoginResponseModel> Register([FromBody] UserVM user)
+        public ActionResult<HttpResponseModel> Register([FromBody] UserVM user)
         {
-            var response = _userService.AddOrUpdateUser(user);
-            return Ok(response);
+            var response = _authService.Register(user);
+            return response.Message == Constants.Messages.UserCreatedSuccessfully ? Created("register", response) : Ok(response);
         }
     }
 }

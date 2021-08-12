@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Utility
+﻿using WebAPI.Utility.Interfaces;
+
+namespace WebAPI.Utility
 {
     public class BCryptHelper : IBcryptHelper
     {

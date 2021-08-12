@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using WebAPI.Data.Models.ViewModels;
-using WebAPI.Data.Services;
+using WebAPI.Data.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {

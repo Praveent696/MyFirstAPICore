@@ -12,11 +12,4 @@ namespace WebAPI.Data.Models.ViewModels
         [MaxLength(15)]
         public string Password { get; set; }
     }
-
-    public class LoginResponseModel
-    {
-        public bool Success { get; set; }
-        public object User { get; set; }
-        public string JwtToken { get; set; }
-    }
 }

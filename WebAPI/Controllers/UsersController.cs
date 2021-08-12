@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using WebAPI.Data.Models.ViewModels;
-using WebAPI.Data.Services;
+using WebAPI.Data.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {
@@ -72,24 +72,5 @@ namespace WebAPI.Controllers
             };
             return Ok(model);
         }
-
-        ///// <summary>
-        ///// Add or Update new user
-        ///// </summary>
-        ///// <param name="user">User view model to post user.</param>
-        ///// <returns></returns>
-        //[HttpPost("add-user")]
-        //public ActionResult<HttpResponseModel> Post([FromBody]UserVM user)
-        //{
-        //    var users = _userService.AddOrUpdateUser(user);
-        //    HttpResponseModel model = new HttpResponseModel()
-        //    {
-        //        Success = users.Count() > 0,
-        //        Data = users,
-        //        Count = users.Count()
-        //    };
-        //    return Ok(model);
-        //}
-
     }
 }
