@@ -53,6 +53,7 @@ namespace WebAPI
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleServices, RoleServices>();
             services.AddTransient<IAuthServices, AuthServices>();
+            services.AddTransient<IPoliciesServices, PoliciesServices>();
 
             // Configure Helper Services
             services.AddTransient<IBcryptHelper, BCryptHelper>();

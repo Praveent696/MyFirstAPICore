@@ -24,7 +24,7 @@ namespace WebAPI.Data.Services
         {
             HttpResponseModel model = new HttpResponseModel();
             var usr = _context.Users.Where(x => x.Email == user.Username).FirstOrDefault();
-            if (usr == null)
+            if (usr == null || !_bcryptHelper.IsStringMatchedToHash(usr.Hash, user.Password))
             {
                 model.Success = false;
                 model.Message = Constants.Messages.UsernamePasswordIncorrect;
@@ -32,13 +32,6 @@ namespace WebAPI.Data.Services
             }
             else
             {
-                var isPassWordMatch = _bcryptHelper.IsStringMatchedToHash(usr.Hash, user.Password);
-                if (!isPassWordMatch)
-                {
-                    model.Success = false;
-                    model.Message = Constants.Messages.UsernamePasswordIncorrect;
-                    return model;
-                }
                 model.Success = true;
                 model.Message = Constants.Messages.LoginSuccess;
                 model.Data = _context.Users.Where(x => x.Email == user.Username).Include(x => x.role).Include(x => x.role.Permissions).FirstOrDefault();
